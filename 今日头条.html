@@ -1,0 +1,602 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="swiper.min.css" rel="stylesheet"/>
+<link href="animate.css" rel="stylesheet"/>
+<link href="jquery.mobile-1.4.5.min.css" rel="stylesheet"/>
+<title>今日头条</title>
+<style>
+	*{margin:0;padding:0;list-style:none;text-decoration:none;}
+	.box{width:16rem;position:relative;}
+	.header{
+		width:16rem;
+		height:2.2rem;
+		background:#d43d3d;
+		padding-top:0.165rem;
+		box-sizing:border-box;
+		padding-left:0.25rem;
+		overflow:hidden;
+		position:fixed;
+		top:0;
+		left:0;
+	}
+	.xinfeng{
+		display:block;
+		width:1.6rem;
+		height:1.25rem;
+		background:url(img/feed_ic_message_normal@3x_f2ea949f120fda7532de30660fd47455.png) no-repeat;
+		float:left;
+		background-size:100%;
+	}
+	.toutiao{
+		display:block;
+		width:4.9rem;
+		height:2.2rem;
+		float:left;
+		background:url(img/wap_logo@3x_581de69e38eae19e1cc57449a97be10f.png) no-repeat 0 0.3rem;
+		margin-left:3rem;
+		background-size:100%;
+	}
+	.shaxin{
+		width:1.25rem;
+		height:2.2rem;
+		background:url(img/titlebar_refresh_small@3x_96fb31e43870246a450c5812493204bd.png) no-repeat 0 0.3rem;
+		float:left;	
+		background-size:100%;
+		margin-left:0.5rem;
+	}
+	.sousuo{
+		display:block;
+		width:1.2rem;
+		height:2.2rem;
+		background:url(img/feed_ic_search_normal@3x_0f198e566fac66cbb016bc72f15d4f39.png) no-repeat 0 0.3rem;
+		float:right;	
+		background-size:100%;
+		margin-right:0.5rem;
+	}
+	.menu1{
+		width:16rem;
+		height:1.8rem;
+		position:fixed;
+		top:2.2rem;
+		left:0;
+	}
+	.menu{
+		width:14rem;
+		overflow:hidden;
+		height:1.8rem;
+		background:#f4f5f6;	
+	}
+	.jia{
+		display:block;
+		float:right;
+		width:2rem;
+		height:1.8rem;
+		background:#f4f5f6 url(img/addred_channel_titlbar@3x_2106879383cd310a182d76e7e234db4c.png) no-repeat center;
+		background-size:50%;
+		border-left:1px solid #ccc;	
+		position:absolute;
+		top:0;
+		right:0;
+	}
+	.menu ul{
+		width:31.725rem;
+		height:100%;
+		overflow:hidden;
+	}
+	.menu ul li{
+		box-sizing:border-box;
+		float:left;
+		line-height:1.8rem;
+		font-size:0.8rem;
+		padding-left:1rem;	
+		z-index:999;
+	}
+	.menu ul li a{color:#000;}
+	.menu ul li a:hover{
+		color:#f85959;	
+	}
+	@-webkit-keyframes test{
+		0%{transform:rotate(0deg)}
+		25%{transform:rotate(-16deg)}
+		50%{transform:rotate(0deg)}
+		75%{transform:rotate(15deg)}
+		100%{transform:rotate(0deg)}	
+	}
+	.hongbao{
+		display:block;
+		width:2.0625rem;
+		height:2.5rem;
+		position:fixed;
+		top:50%;
+		right:.46875rem;
+		bottom:.5rem;
+		background:url(img/bonus_icon@3x_f4035aa1c7322822ac0f4f5c2648bf84.png) no-repeat 50%;
+		background-size:cover;
+		animation:0.4s test linear infinite;	
+	}
+	
+	.shanchu{
+		display:block;
+		width:16rem;
+		background:#f4f5f6;
+		font-size:12px;
+		color:#000;
+		line-height:2em;
+		padding-left:10px;
+	}
+	.pp{
+		color:#fff;	
+		text-align:center;
+		font-size:1rem;
+		line-height:1.7rem;
+		float:lefft;
+	}
+	.fanhui{
+		display:block;
+		float:left;
+	}
+	.header1{
+		width:16rem;
+		height:2.2rem;
+		background:#d43d3d;
+		padding-top:0.165rem;
+		box-sizing:border-box;
+		padding-left:0.25rem;
+		overflow:hidden;
+	}
+	.sichengsi{
+		width:16rem;
+		background:#fff;
+		padding:10px 0;	
+		box-sizing:border-box;
+	}
+	.sichengsi ul{overflow:hidden;}
+	.sichengsi ul li{float:left;}
+	.sichengsi ul li a{
+		display:block;
+		box-sizing:border-box;
+		margin:5px 8px;
+		color:#666;
+		border:1px solid #ddd;
+		text-align:center;
+		font-size:16px;	
+		padding:10px 14px;	
+	}
+	input{width:16rem;}
+	.sousuo1{
+		display:block;
+		background:#f5f5f5;
+		font-size:15px;
+		padding:5px;
+		float:left;
+		margin-left:0.7rem;
+		margin-top:0.7rem;
+	}
+	.yilang{
+		overflow:hidden;	
+	}
+	.ui-input-text{
+		width:80%;
+		height:1.7rem;
+		float:right;
+	}
+	.input1{width:16rem;background:#f5f5f5;box-sizing:border-box;overflow:hidden;}
+	.baidu{width:2rem;height:1.675rem;background:url(img/toou.png) no-repeat;float:left;background-size:100% 100%;margin-top:10px;margin-left:10px;}
+	.xinwen{
+		width:75%;
+		height:2.925rem;
+		background:#f5f5f5;
+		display:none;
+		position:absolute;
+		top:5rem;
+		left:0;
+		border-radius:4px;
+		padding-top:10px;
+	}
+	.xinwen ul{
+		display:-webkit-box;
+		width:100%;
+	}
+	.xinwen ul li{
+		-webkit-box-flex:1;
+		padding-left:20px;
+		box-sizing:border-box;
+	}
+	.xinwen ul li a{width:100%;display:block;}
+	.xinwen ul li p{font-size:14px;color:#000;font-weight:bold;margin-left:6px;}
+	.touming{width:100%;height:100%;background:#000;position:absolute;top:0;left:0; opacity:0.6;display:none;}
+	.content{
+    width:100%;
+	margin-top:4.2rem;
+}
+.content .content1 {
+    padding: 0 10px;
+    overflow: hidden;
+    margin-top:10px;
+}
+.content .content1 a{
+    overflow: hidden;
+    color: #000;
+}
+.content .content1 a h3{
+    font-size:17px;
+    margin-bottom:6px;
+}
+.content .content1 a ul{
+    overflow: hidden;
+    margin-bottom:6px;
+}
+.content .content1 a ul li{
+    float: left;
+    width:32%;
+    margin-right:2px;
+}
+.content .content1 a ul li img{
+    width:100%;
+    height:100%;
+}
+.content  .content1 a div span{
+    font-size:12px;
+    color: #cccccc;
+    margin-right:5px;
+}
+.touming2{width:100%;height:100%;position:absolute;top:0;left:0;background:#000; opacity:0.6;display:none;}
+.hongbao2{
+	display:block;
+	width:14.65625rem;
+	height:16.5625rem;
+	position:fixed;
+	top:20%;
+	left:5%;
+	display:none;
+}
+.hongbao2 img{width:100%;height:100%;}
+.yidong{
+	width:75%;
+	height:35%;
+	background:#fff;
+	position:fixed;
+	top:40%;
+	left:15%;
+	border-radius:8px;
+	display:none;
+}
+#cha2{width:10px;float:right;margin-right:10px;}
+.yidong img{
+	width:60%;
+	height:60%;
+	margin-left:60px;
+}
+.liji{
+	display:block;
+	text-align:center;
+	line-height:2rem;
+	width:80%;
+	height:2rem;
+	background:#ff6762;
+	margin-left:28px;
+	border-radius:8px;
+}
+.banner{
+	width:100%;
+	height:50px;
+	background:#000;
+	position:fixed;
+	bottom:0;
+	left:0;
+	opacity:0.6;	
+}
+.banner2{
+	width:100%;
+	height:50px;
+	position:fixed;
+	bottom:0;
+	left:0;	
+	overflow:hidden;
+}
+.banner2 img{
+	width:8%;
+	height:60%;	
+	margin-top:8px;
+	margin-left:10px;
+	border-radius:4px;
+	float:left;
+}
+.span1{
+	font-size:0.6rem;
+	color:#fff;
+	margin-top:8px;
+	margin-left:4px;
+}
+.span2{
+	font-size:0.5rem;
+	color:#fff;	
+	margin-left:4px;
+}
+.open{
+	display:block;
+	background:#ff424b;
+	width:4rem;
+	height:1.5rem;
+	float:right;
+	margin-right:30px;
+	border-radius:8px;
+	color:#fff;
+	font-size:0.7rem;
+	padding-top:1.5%;
+	padding-left:4%;
+	box-sizing:border-box;
+	margin-top:5px;
+}
+.open2{
+	float:right;	
+	margin-right:10px;
+	margin-top:5px;
+}
+</style>
+<script src="swiper.min.js"></script>
+<script src="jquery-1.7.2.js"></script>
+<script src="jquery.mobile-1.4.5.min.js"></script>
+<script src="zepto.min.js"></script>
+<script>
+(function(win,doc){
+		function change(){
+			document.documentElement.style.fontSize=20*document.documentElement.clientWidth/320+'px'	
+		}
+		change()
+		//window.onresize=change
+		window.addEventListener('resize',change,false)
+})(window,document)
+document.addEventListener('DOMContentLoaded',function(){
+		var oUl=document.getElementById('ull');
+		var oMenuu=document.getElementById('menu')
+		var x=0;
+		oUl.addEventListener('touchstart',function(ev){
+			var disX=ev.targetTouches[0].pageX-x;
+			function fnMove(ev){
+				x=ev.targetTouches[0].pageX-disX;
+				if(x>0){
+					x=0;
+				}
+				oUl.style.WebkitTransform='translate('+x+'px,0)';
+				
+			}
+			function fnEnd(){
+				document.removeEventListener('touchmove',fnMove,false);
+				document.removeEventListener('touchend',fnEnd,false);	
+			}
+			document.addEventListener('touchmove',fnMove,false);
+			document.addEventListener('touchend',fnEnd,false);
+				
+		},false);
+	},false)
+window.onload=function(){
+	$('#ul1 li').live('click',function(){
+		$(this).prependTo($('#ul2'))
+	})
+	$('#ul2 li').live('click',function(){
+		$(this).prependTo($('#ul1'))
+	})
+	$.ajax({
+                url:'http://m.toutiao.com/list/?tag=__all__&ac=wap&count=20&format=json_raw&as=A1A5F839DFF34A8&cp=589F53E4EA38FE1&min_behot_time=1486828702',
+                dataType:'jsonp',
+                success: function(json){
+                    for(var i=0;i<json.data.length;i++){
+                        var oB=$('<a href="javascript:;"><h3>'+json.data[i].title+'</h3><ul><li><img src="'+json.data[i].image_list[0].url_list[0].url+'" alt=""></li><li><img src="'+json.data[i].image_list[1].url_list[0].url+'" alt=""></li><li><img src="'+json.data[i].image_list[2].url_list[0].url+'" alt=""></li></ul><div><span>'+json.data[i].source+'</span><span>评论'+json.data[i].comment_count+'</span><span>'+json.data[i].datetime+'</span></div></a>');
+                        oB.appendTo('.content1');
+                    }
+                }
+
+            })
+	var oBai=document.getElementById('baidu')
+	var oXin=document.getElementById('xinwen')
+	var oT=document.getElementById('touming')
+	var oH=document.getElementById('hongbao')
+	var oM2=document.getElementById('touming2')
+	var oH2=document.getElementById('hongbao2')
+	var oX=document.getElementById('cha')
+	var oX3=document.getElementById('cha2')
+	var oX2=document.getElementById('xinfen')
+	var oY=document.getElementById('yidong')
+	var oOpen=document.getElementById('open2')
+	var oBanner2=document.getElementById('banner2')
+	var oBanner=document.getElementById('banner')
+	oOpen.onclick=function(){
+		oBanner.style.display='none'
+		oBanner2.style.display='none'	
+	}
+	oX2.onclick=function(){
+		oM2.style.display='block'
+		oY.style.zIndex=999
+		oY.style.display='block'
+		oH.style.zIndex=9999
+	}
+	oX3.onclick=function(){
+		oM2.style.display='none'
+		oY.style.display='none'
+	}
+	oH.onclick=function(){
+		oM2.style.display='block'
+		oH2.style.zIndex=999
+		oH2.style.display='block'
+	}
+	oX.onclick=function(){
+		oM2.style.display='none'
+		oH2.style.zIndex=999
+		oH2.style.display='none'
+	}
+	oBai.onclick=function(){
+		oXin.style.display='block'
+		oXin.style.zIndex=999
+		oT.style.display='block'
+	}
+	oT.onclick=function(){
+		oXin.style.display='none'
+		oT.style.zIndex=999
+		oT.style.display='none'
+	}
+}
+</script>
+</head>
+
+<body>
+<div class="box" data-role="page" id="page1">
+	<div class="banner" id="banner"></div>
+    <div class="banner2" id="banner2">
+    	<img src="img/toou.png" alt=""/>
+        <div style="float:left;">
+            <p class="span1">今日头条</p>
+            <p class="span2">7亿用户的选择</p>
+        </div>
+         <a href="javascript:;" class="open2" style="color:#fff;font-weight:normal;" id="open2">x</a>
+        <a href="javascript:;" class="open" style="color:#fff;font-weight:normal;">立即打开</a>
+    </div>
+	<div class="yidong" id="yidong">
+    	<p id="cha2">X</p>
+        <img src="img/popup_banner_6006ac970cde9a56789263f487f27030.png" alt=""/>
+        <p style="color:#a5a5a5; text-align:center;font-size:17px;">已加载好您感兴趣的头条</p>
+        <a href="javascript:;" class="liji" style="color:#fff;">立即打开</a>
+    </div>
+    <div class="header">
+        <a href="javascript:;" class="xinfeng" id="xinfen"></a>
+        <a href="javascript:;" class="toutiao"></a>
+        <a href="javascript:;" class="shaxin" data-icon="refresh" onClick="location.reload()"></a>
+        <a href="#page2" id="sousuo"   data-transition="flip" class="sousuo"></a>
+    </div>
+    <div class="menu1">
+    <a href="#page2" class="jia"  data-transition="flip"></a>
+        <div class="menu" id="menu">
+            <ul id="ull">
+                <li><a href="javascript:;">推荐</a></li>
+                <li><a href="javascript:;">阳光宽频</a></li>
+                <li><a href="javascript:;">热点</a></li>
+                <li><a href="javascript:;">社会</a></li>
+                <li><a href="javascript:;">娱乐</a></li>
+                <li><a href="javascript:;">军事</a></li>
+                <li><a href="javascript:;">科技</a></li>
+                <li><a href="javascript:;">汽车</a></li>
+                <li><a href="javascript:;">体育</a></li>
+                <li><a href="javascript:;">财经</a></li>
+            </ul>
+        </div>
+    </div>
+    <a href="javascript:;" class="hongbao" id="hongbao"></a>
+    <div class="touming2" id="touming2"></div>
+    <a href="javascript:;" class="hongbao2" id="hongbao2">
+    	<p id="cha">x</p>
+    	<img src="img/wap_bonus@3x_f3bc610f36b421cbe32102dee4923c01.jpg" alt=""/>
+    </a>
+    <div class="content">
+            <div class="content1" id="box2">
+                <!--<a href="javascript:;">-->
+                    <!--<h3>人老瑞显老，11个张昭你中了几个</h3>-->
+                    <!--<ul>-->
+                        <!--<li>1</li>-->
+                        <!--<li>2</li>-->
+                        <!--<li>3</li>-->
+                    <!--</ul>-->
+                    <!--<div>-->
+                        <!--<span>医有意思学</span><span>评论</span><span>6分钟前</span>-->
+                    <!--</div>-->
+                <!--</a>-->
+            </div>
+        </div>
+</div>
+
+<div  class="box" data-role="page" id="page2">
+	<div class="header1">
+    	<a href="javascript:;" class="fanhui" data-rel="back" data-icon="back" style="color:#fff;margin-top:5px;"><</a>
+        <p class="pp">频道管理</p>
+    </div>
+    <a href="#page1"  data-transition="flip"  class="shanchu" style="color:#666;">点击频道删除</a>
+    <div class="sichengsi">
+        <ul id="ul1">
+        	<li><a href="javascript:;">推荐</a></li>
+            <li><a href="javascript:;">热点</a></li>
+            <li><a href="javascript:;">社会</a></li>
+            <li><a href="javascript:;">娱乐</a></li>
+            <li><a href="javascript:;">科技</a></li>
+            <li><a href="javascript:;">汽车</a></li>
+            <li><a href="javascript:;">体育</a></li>
+            <li><a href="javascript:;">财经</a></li>
+            <li><a href="javascript:;">军事</a></li>
+            <li><a href="javascript:;">国际</a></li>
+            <li><a href="javascript:;">时尚</a></li>
+            <li><a href="javascript:;">游戏</a></li>
+        </ul>
+    </div>
+    <a href="#page1"  data-transition="flip"  class="shanchu" style="color:#666;">点击添加以下频道</a>
+    <div class="sichengsi">
+        <ul id="ul2">
+        	<li><a href="javascript:;">旅游</a></li>
+            <li><a href="javascript:;">历史</a></li>
+            <li><a href="javascript:;">探索</a></li>
+            <li><a href="javascript:;">美食</a></li>
+            <li><a href="javascript:;">育儿</a></li>
+            <li><a href="javascript:;">养生</a></li>
+            <li><a href="javascript:;">故事</a></li>
+            <li><a href="javascript:;">美女</a></li>
+        </ul>
+    </div>
+</div>
+
+<div  class="box" data-role="page" id="page3" style="background:#fff; position:relative;">
+	<div class="header1">
+    	<a href="javascript:;" class="fanhui" data-rel="back" data-icon="back" style="color:#fff;margin-top:5px;"><</a>
+        <p class="pp">搜索</p>
+    </div>
+    <div class="input1">
+        <p class="baidu" id="baidu"></p>
+        <input type="text"/>
+    </div>
+    <div class="touming" id="touming"></div>
+    <div class="xinwen" id="xinwen">
+    	<ul>
+        	<li>
+            	<a href="javascript:;">
+                    <img src="img/toou.png" alt="" style="width:2rem;height:1.5rem;"/>
+                    <p>新闻</p>
+                </a>
+            </li>
+            <li>
+            	<a href="javascript:;">
+                    <img src="img/shenma.png" alt="" style="width:2rem;height:1.5rem;"/>
+                    <p>神马</p>
+                </a>
+            </li>
+            <li>
+            	<a href="javascript:;">
+                    <img src="img/baiduu.png" alt="" style="width:2rem;height:1.5rem;"/>
+                    <p>百度</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="yilang">
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+    </div>
+    <div class="yilang">
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+    </div>
+    <div class="yilang">
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+    </div>
+    <div class="yilang">
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+    </div>
+    <div class="yilang">
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+        <a href="javascript:;" class="sousuo1" style="color:#363636;width:6.325rem;">伊朗军方试制导弹</a>
+    </div>
+</div>
+</body>
+</html>
